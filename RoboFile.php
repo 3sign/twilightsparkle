@@ -33,7 +33,11 @@ class RoboFile extends \Robo\Tasks
     $this->taskComposerConfig()
       ->dir($working_dir)
       ->repository('spike', 'git@codebasehq.com:3sign/3sign/spike.git', 'git')
-      ->set('scripts.spike', "robo --load-from vendor/3sign/spike --ansi")
+      ->run();
+
+    $this->taskComposerConfig()
+      ->dir($working_dir)
+      ->set('scripts.spike', "robo --load-from vendor/3sign/spike --ansi < /dev/tty")
       ->run();
 
     // add spike
