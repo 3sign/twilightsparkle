@@ -19,7 +19,7 @@ $classLoader = require $autoloaderPath;
 // Customization variables
 $appName = "TwilightSparkle";
 //$appVersion = trim(file_get_contents(__DIR__ . '/VERSION'));
-$commandClasses = [ \MyProject\Commands\RoboFile::class ];
+$commandClasses = [ \TwilightSparkle\Commands\RoboFile::class ];
 //$selfUpdateRepository = '3sign/TwilightSparkle';
 //$configurationFilename = 'myconfig.yml';
 
