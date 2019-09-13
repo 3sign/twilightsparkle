@@ -1,5 +1,6 @@
 {
     "name": "3sign/twilight_sparkle",
+    "bin": ["bin/twilightsparkle.phar"],
     "authors": [
         {
             "name": "Stijn Blomme",
@@ -9,4 +10,9 @@
     "require": {
         "consolidation/robo": "^1.4"
     },
+    "autoload":{
+        "psr-4":{
+            "TwilightSparkle\\":"src"
+        }
+    }
 }

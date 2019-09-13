@@ -1,0 +1,6 @@
+{
+  "files": ["src/Commands/RoboFile.php"],
+  "main": "bin/main",
+  "output": "bin/twilightsparkle.phar",
+  "stub": true
+}
