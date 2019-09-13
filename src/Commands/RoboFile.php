@@ -47,7 +47,5 @@ class RoboFile extends \Robo\Tasks
     $this->taskComposerRequire()
       ->dir($working_dir)
       ->dependency('3sign/spike')->run();
-
-
-    }
+  }
 }

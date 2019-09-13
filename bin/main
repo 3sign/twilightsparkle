@@ -18,19 +18,19 @@ $classLoader = require $autoloaderPath;
 
 // Customization variables
 $appName = "TwilightSparkle";
-$appVersion = trim(file_get_contents(__DIR__ . '/VERSION'));
+//$appVersion = trim(file_get_contents(__DIR__ . '/VERSION'));
 $commandClasses = [ \MyProject\Commands\RoboFile::class ];
-$selfUpdateRepository = '3sign/TwilightSparkle';
-$configurationFilename = 'myconfig.yml';
+//$selfUpdateRepository = '3sign/TwilightSparkle';
+//$configurationFilename = 'myconfig.yml';
 
 // Define our Runner, and pass it the command classes we provide.
 $runner = new \Robo\Runner($commandClasses);
 $runner
-  ->setSelfUpdateRepository($selfUpdateRepository)
-  ->setConfigurationFilename($configurationFilename)
+  //->setSelfUpdateRepository($selfUpdateRepository)
+  //->setConfigurationFilename($configurationFilename)
   ->setClassLoader($classLoader);
 
 // Execute the command and return the result.
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-$statusCode = $runner->execute($argv, $appName, $appVersion, $output);
+$statusCode = $runner->execute($argv, $appName, '1.0', $output);
 exit($statusCode);
