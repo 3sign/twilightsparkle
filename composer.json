@@ -1,5 +1,6 @@
 {
     "name": "3sign/twilight_sparkle",
+    "licence": "MIT",
     "bin": ["bin/twilightsparkle"],
     "authors": [
         {
