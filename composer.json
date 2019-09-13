@@ -1,6 +1,6 @@
 {
     "name": "3sign/twilight_sparkle",
-    "bin": ["bin/twilightsparkle.phar"],
+    "bin": ["bin/twilightsparkle"],
     "authors": [
         {
             "name": "Stijn Blomme",
