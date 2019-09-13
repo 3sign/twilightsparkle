@@ -1,4 +1,4 @@
-#Twilight Sparkle
+# Twilight Sparkle
 
 ## What?
 
@@ -20,5 +20,4 @@ go to your project directory & continue setting up your project with spike.
 ``` 
 $ cd /path/to/project
 $ composer spike
-
 ```
