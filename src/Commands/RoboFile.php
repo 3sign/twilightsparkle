@@ -2,6 +2,10 @@
 
 namespace TwilightSparkle\Commands;
 
+use \Robo\Robo;
+use Symfony\Component\Yaml\Yaml;
+
+
 /**
  * This is project's console commands configuration for Robo task runner.
  *
@@ -9,18 +13,36 @@ namespace TwilightSparkle\Commands;
  */
 class RoboFile extends \Robo\Tasks
 {
-  function install() {
-    $workspace = $this->ask('What is the absolute path to your workspace? example: /Users/example/workspace');
+  protected function getSettings() {
+    $settingsfile = $_SERVER['HOME'] . '/.twilightsparkle.yml';
+    if(!file_exists($settingsfile)) {
+      $this->taskFilesystemStack()
+        ->touch($settingsfile)
+        ->run();
+    }
+    return Yaml::parseFile($settingsfile);
+  }
 
-    $this->taskWriteToFile('robo.yml')
-      ->line('workspace: ' . $workspace)
+  function install() {
+    $settings = $this->getSettings();
+    $settings['workspace'] = $this->ask('What is the absolute path to your workspace? example: /Users/example/workspace');
+
+    $yaml = Yaml::dump($settings);
+    $this->taskWriteToFile($_SERVER['HOME'] . '/.twilightsparkle.yml')
+      ->text($yaml)
       ->run();
 
   }
 
-
   function generateDrupal8 () {
-    $working_root = Robo\Robo::Config()->get('workspace');
+    $settings = $this->getSettings();
+    if (!isset($settings['workspace'])) {
+      $this->install();
+      $settings = $this->getSettings();
+    }
+
+    $working_root = $settings['workspace'];
+
     $project_name = $this->ask('What is your project name?');
     $working_dir = $working_root . '/' . $project_name;
 
