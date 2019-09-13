@@ -1,0 +1,12 @@
+{
+    "name": "3sign/twilight_sparkle",
+    "authors": [
+        {
+            "name": "Stijn Blomme",
+            "email": "stijn@3sign.com"
+        }
+    ],
+    "require": {
+        "consolidation/robo": "^1.4"
+    },
+}
