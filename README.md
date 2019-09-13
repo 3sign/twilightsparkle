@@ -1,10 +1,10 @@
-#Twilight Sparkle
+# Twilight Sparkle
 
-##whois?
+## What
 
 Twilight Sparkle is a generator for new 3sign projects.
 
-##Installation
+## Installation
 
 1. install robo globally ```composer global require consolidation/robo```
 
