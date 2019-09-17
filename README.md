@@ -9,7 +9,7 @@ Twilight Sparkle is a generator for new 3sign projects.
 ### Prerequisites
 
 - Composer should be installed globally
-- [globalcomposer]/vendor/bin should be added to your PATH
+- [globalcomposer]/vendor/bin should be added to your PATH (on OSX /Users/[username]/.composer/vendor/bin )
 - Ddev has to be installed
 
 ### Installation instructions
