@@ -10,7 +10,7 @@
     ],
     "require": {
         "consolidation/robo": "^1.4",
-        "symfony/yaml": "^3.4"
+        "symfony/yaml": ">=3.4"
     },
     "autoload":{
         "psr-4":{
