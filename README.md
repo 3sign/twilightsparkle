@@ -29,3 +29,10 @@ go to your project directory & continue setting up your project with spike.
 $ cd /path/to/project
 $ composer spike
 ```
+
+## Run local (testing)
+
+1. Perform your code changes
+2. ```$ sh build.sh```
+3. ```$ chmod 755 bin/twilightsparkle```
+4. ```$ bin/twilightsparkle```

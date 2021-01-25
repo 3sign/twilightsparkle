@@ -102,8 +102,6 @@ class RoboFile extends Tasks {
 
     $this->execCommand('touch .env', $working_dir);
 
-
-    
     $command = ['composer spike site:setup', '--', $project_name, $php_version, '--force'];
     $this->execCommand(implode(' ', $command), $working_dir);
     $command = ['composer spike site:install', '--', $project_name, 'en demo_umami --sandbox'];
