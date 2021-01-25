@@ -66,10 +66,13 @@ class RoboFile extends Tasks {
   /**
    * Generate a new Drupal 9 website.
    */
-  public function generateDrupal9() {
+  public function generateDrupal9($project_name = '') {
     $working_root = $this->getRoot();
 
-    $project_name = $this->ask('What is your project name?');
+    if (empty($project_name)) {
+      $project_name = $this->ask('What is your project name?');
+    }
+
     $working_dir = $working_root . '/' . $project_name;
 
     // Create drupal project.
@@ -81,6 +84,30 @@ class RoboFile extends Tasks {
       ->run();
 
     $this->installSpike($working_dir);
+
+  }
+
+  /**
+   * Generate a new Drupal sandbox website.
+   */
+  public function generateSandbox() {
+    $working_root = $this->getRoot();
+
+    $project_name = $this->ask('What is your project name?');
+    $php_version = $this->askDefault('What php version do you want to use?', '7.4');
+    $working_dir = $working_root . '/' . $project_name;
+
+    // Create drupal project.
+    $this->generateDrupal9($project_name);
+
+    $this->execCommand('touch .env', $working_dir);
+
+
+    
+    $command = ['composer spike site:setup', '--', $project_name, $php_version, '--force'];
+    $this->execCommand(implode(' ', $command), $working_dir);
+    $command = ['composer spike site:install', '--', $project_name, 'en demo_umami --sandbox'];
+    $this->execCommand(implode(' ', $command), $working_dir);
 
   }
 
@@ -122,6 +149,14 @@ class RoboFile extends Tasks {
     $this->taskComposerRequire()
       ->dir($working_dir)
       ->dependency('3sign/spike')->run();
+  }
+
+  protected function execCommand($command, $dir) {
+    $cd = 'cd ' .  $dir   . ' && ';
+    $this->say($cd . $command);
+    $output = shell_exec($cd . $command);
+    $this->say($output);
+    return $output;
   }
 
 }
