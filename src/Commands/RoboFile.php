@@ -94,7 +94,8 @@ class RoboFile extends Tasks {
     $working_root = $this->getRoot();
 
     $project_name = $this->ask('What is your project name?');
-    $php_version = $this->askDefault('What php version do you want to use?', '7.4');
+    $php_version = $this->askDefault('What php version do you want to use?', '8.1');
+    $mysql_version = $this->askDefault('What mysql version do you want to use?', '8.0');
     $working_dir = $working_root . '/' . $project_name;
 
     // Create drupal project.
@@ -102,7 +103,7 @@ class RoboFile extends Tasks {
 
     $this->execCommand('touch .env', $working_dir);
 
-    $command = ['composer spike site:setup', '--', $project_name, $php_version, '--force'];
+    $command = ['composer spike site:setup', '--', $project_name, $php_version, $mysql_version, '--force'];
     $this->execCommand(implode(' ', $command), $working_dir);
     $command = ['composer spike site:install', '--', $project_name, 'en demo_umami --sandbox'];
     $this->execCommand(implode(' ', $command), $working_dir);
