@@ -21,7 +21,7 @@ Twilight Sparkle is a generator for new 3sign projects.
 
 ## Creating new projects
 
-Run ```$ twilightsparkle generate:drupal8``` From the Twilight Sparkle directory.
+Run ```$ twilightsparkle generate:drupal9``` From the Twilight Sparkle directory.
 
 go to your project directory & continue setting up your project with spike.
 
