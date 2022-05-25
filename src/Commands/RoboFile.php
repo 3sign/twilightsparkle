@@ -44,26 +44,6 @@ class RoboFile extends Tasks {
   }
 
   /**
-   * Generate a new drupal 8 website.
-   */
-  public function generateDrupal8() {
-    $working_root = $this->getRoot();
-
-    $project_name = $this->ask('What is your project name?');
-    $working_dir = $working_root . '/' . $project_name;
-
-    // Create drupal project.
-    $this->taskComposerCreateProject()
-      ->source('drupal-composer/drupal-project:8.x-dev')
-      ->dir($working_root)
-      ->target($project_name)
-      ->option('no-interaction')
-      ->run();
-
-    $this->installSpike($working_dir);
-  }
-
-  /**
    * Generate a new Drupal 9 website.
    */
   public function generateDrupal9($project_name = '') {
