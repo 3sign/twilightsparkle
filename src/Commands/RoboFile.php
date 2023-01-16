@@ -29,17 +29,46 @@ class RoboFile extends Tasks {
     return Yaml::parseFile($settingsfile);
   }
 
-  /**
-   * Install Twilight Sparkle into the system.
-   */
-  public function install() {
+  protected function validateSettings() {
     $settings = $this->getSettings();
-    $settings['workspace'] = $this->ask('What is the absolute path to your workspace? example: /Users/example/workspace');
+    $valid = TRUE;
+
+    if (empty($settings['workspace'])) {
+      $valid = FALSE;
+    }
+
+    if (empty($settings['gitlabToken']['name'])) {
+      $valid = FALSE;
+    }
+
+    if (empty($settings['gitlabToken']['value'])) {
+      $valid = FALSE;
+    }
+    
+    return $valid;
+
+  }
+
+  public function settingsSet() {
+    $settings = $this->getSettings();
+
+    $settings['workspace'] = $this->ask('What is the absolute path to your workspace? example: /Users/example/workspace', $settings['workspace'] ?? '');
+    $settings['gitlabToken']['name'] = $this->ask('What is the name of your gitlab token to connect with the private repo', $settings['gitlabToken']['key'] ?? '');
+    $settings['gitlabToken']['value'] = $this->ask('What is the value of your gitlab token?', $settings['gitlabToken']['value'] ?? '');
 
     $yaml = Yaml::dump($settings);
     $this->taskWriteToFile($_SERVER['HOME'] . '/.twilightsparkle.yml')
       ->text($yaml)
       ->run();
+  }
+
+  /**
+   * Install Twilight Sparkle into the system.
+   */
+  public function install() {
+    $this->settingsSet();
+
+    $this->say('Twilightsparkle is now installed!');
 
   }
 
@@ -47,6 +76,10 @@ class RoboFile extends Tasks {
    * Generate a new Drupal 9 website.
    */
   public function generateDrupal9($project_name = '') {
+    if (!$this->validateSettings()) {
+      $this->settingsSet();
+    }
+
     $working_root = $this->getRoot();
 
     if (empty($project_name)) {
@@ -71,6 +104,9 @@ class RoboFile extends Tasks {
    * Generate a new Drupal sandbox website.
    */
   public function generateSandbox() {
+    if (!$this->validateSettings()) {
+      $this->settingsSet();
+    }
     $working_root = $this->getRoot();
 
     $project_name = $this->ask('What is your project name?');
@@ -113,15 +149,16 @@ class RoboFile extends Tasks {
    *   The working directory of the new project.
    */
   private function installSpike($working_dir) {
-    // Add codebasehq repo.
-    $this->taskComposerConfig()
-      ->dir($working_dir)
-      ->repository('spike', 'git@codebasehq.com:3sign/3sign/spike.git', 'git')
-      ->run();
+    $settings = $this->getSettings();
 
+    // Add Gitlab credentials.
+    $command = 'composer config gitlab-token.gitlab.com ' . $settings['gitlabToken']['name'] . ' ' . $settings['gitlabToken']['value'];
+    $this->execCommand($command, $working_dir);
+
+    // Add Gitlab repo.
     $this->taskComposerConfig()
       ->dir($working_dir)
-      ->set('scripts.spike', "robo --load-from vendor/3sign/spike --ansi < /dev/tty")
+      ->repository('3sign', "https://gitlab.com/api/v4/group/3sign/-/packages/composer/", 'composer')
       ->run();
 
     // Add spike.
@@ -131,7 +168,7 @@ class RoboFile extends Tasks {
   }
 
   protected function execCommand($command, $dir) {
-    $cd = 'cd ' .  $dir   . ' && ';
+    $cd = 'cd ' . $dir . ' && ';
     $this->say($cd . $command);
     $output = shell_exec($cd . $command);
     $this->say($output);
