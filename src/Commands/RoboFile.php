@@ -44,7 +44,7 @@ class RoboFile extends Tasks {
     if (empty($settings['gitlabToken']['value'])) {
       $valid = FALSE;
     }
-    
+
     return $valid;
 
   }
@@ -159,6 +159,11 @@ class RoboFile extends Tasks {
     $this->taskComposerConfig()
       ->dir($working_dir)
       ->repository('3sign', "https://gitlab.com/api/v4/group/3sign/-/packages/composer/", 'composer')
+      ->run();
+
+    $this->taskComposerConfig()
+      ->dir($working_dir)
+      ->set('scripts.spike', "robo --load-from vendor/3sign/spike --ansi < /dev/tty")
       ->run();
 
     // Add spike.
