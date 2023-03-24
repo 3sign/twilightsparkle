@@ -73,6 +73,34 @@ class RoboFile extends Tasks {
   }
 
   /**
+   * Generate a new Drupal 10 website.
+   */
+  public function generateDrupal10($project_name = '') {
+    if (!$this->validateSettings()) {
+      $this->settingsSet();
+    }
+
+    $working_root = $this->getRoot();
+
+    if (empty($project_name)) {
+      $project_name = $this->ask('What is your project name?');
+    }
+
+    $working_dir = $working_root . '/' . $project_name;
+
+    // Create drupal project.
+    $this->taskComposerCreateProject()
+      ->source('drupal-composer/drupal-project:10.x-dev')
+      ->dir($working_root)
+      ->target($project_name)
+      ->option('no-interaction')
+      ->run();
+
+    $this->installSpike($working_dir);
+
+  }
+
+  /**
    * Generate a new Drupal 9 website.
    */
   public function generateDrupal9($project_name = '') {
@@ -115,7 +143,7 @@ class RoboFile extends Tasks {
     $working_dir = $working_root . '/' . $project_name;
 
     // Create drupal project.
-    $this->generateDrupal9($project_name);
+    $this->generateDrupal10($project_name);
 
     $this->execCommand('touch .env', $working_dir);
 
